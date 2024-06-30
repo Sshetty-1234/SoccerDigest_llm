@@ -1,2 +1,7 @@
 beautifulsoup4
 requests
+langchain
+chromadb
+langchain_community
+fpdf
+ollama

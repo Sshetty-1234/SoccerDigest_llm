@@ -1,5 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
+from fpdf import FPDF
+
+
+pdf = FPDF()
+
+pdf.add_page()
+
+# Set font
+pdf.set_font("Arial", size = 12)
+
+
+
 
 headers = {
     'Referer': 'https://www.google.com/',
@@ -19,22 +31,29 @@ soup = BeautifulSoup(response.text, "html.parser")
 articles = soup.find_all('li', class_="item card-list-item_bg-for-shadow__7rgUQ")
 
 counter = 1
-article_set = set()
+article_content = ""
 
 for article in articles:
     a_tag = article.find('a', href=True)  # Find the 'a' tag with an 'href' attribute
     if a_tag and "lists" in a_tag['href']:
         link = "https://goal.com" + a_tag['href']
         print(f"Article {counter}")
+        print(link)
         news_article = requests.get(link)
         news_soup = BeautifulSoup(news_article.text,"html.parser")
         text_summary = news_soup.find("div", class_="article_content__4siWz")
-        print(text_summary.text)
+        article_content = article_content + text_summary.text
         
         counter = counter + 1
-        print("")
         
         # Gives the summary of the top 5 articles
         if counter > 5:
             break
+        
+        
+pdf.multi_cell(0, 10, article_content)
 
+pdf_output = "data/goal_site_info.pdf"
+pdf.output(pdf_output)
+
+print(f"PDF has been saved to {pdf_output}")
