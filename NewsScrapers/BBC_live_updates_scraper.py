@@ -10,14 +10,21 @@ counter = 0
 for element in elements:
     a_tag = element.find("a")
     link = (f"https://bbc.com{a_tag['href']}")
-    
-    if "live" in link:
-        live_link = requests.get(link)
-        live_soup = BeautifulSoup(live_link.text,"html.parser")
-        sources = live_soup.find_all("article", class_="ssrcss-1qgzj2j-ContentPost e6wdqbx1")
+    live_link = requests.get(link)
+    live_soup = BeautifulSoup(live_link.text,"html.parser")
+    check = live_soup.find("div", class_="ssrcss-uf6wea-RichTextComponentWrapper ep2nwvo0")
+    check = str(type(check))
+    if "bs4.element" in check:
+        print(check)
+        sources = live_soup.find_all("div", class_="ssrcss-uf6wea-RichTextComponentWrapper ep2nwvo0")
+        print(type(sources))
         for source in sources:
             print(source.text)
             print("")
+        print("-------------------------------------------------------")
+    
+    if counter > 5:
+        break
 
 
 

@@ -1,14 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from fpdf import FPDF
-
-
-pdf = FPDF()
-
-pdf.add_page()
-
-# Set font
-pdf.set_font("Arial", size = 12)
 
 
 
@@ -51,9 +42,3 @@ for article in articles:
             break
         
         
-pdf.multi_cell(0, 10, article_content)
-
-pdf_output = "data/goal_site_info.pdf"
-pdf.output(pdf_output)
-
-print(f"PDF has been saved to {pdf_output}")

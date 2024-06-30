@@ -6,6 +6,8 @@ soup = BeautifulSoup(page.text, "html.parser")
 
 counter = 1
 
+article_content = " "
+
 articles = soup.find_all("div", class_="ue-l-cover-grid__unit ue-l-cover-grid__unit--no-grow")
 for article in articles:
     link = article.find("a")["href"]
@@ -17,7 +19,7 @@ for article in articles:
     news_soup = BeautifulSoup(news.text,"html.parser")
     elements = news_soup.find("div", class_="ue-c-article__body").find_all("p")
     for element in elements:
-        print(element.text)
+        article_content = article_content + element.text
         
     print("\n")
     counter = counter +  1
