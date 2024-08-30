@@ -7,7 +7,7 @@ from langchain_community.vectorstores import Chroma
 
 
 # Loading the documents as a simple pdf
-loader = PyPDFLoader("data/goal_site_info.pdf")
+loader = PyPDFLoader("data/Report_2024-08-30.pdf")
 docs = loader.load()
 
 
@@ -22,7 +22,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 splits = text_splitter.split_documents(docs)
 
 # Create an embeddings model 
-embeddings = OllamaEmbeddings(model="llama2", temperature=1)
+embeddings = OllamaEmbeddings(model="llama3.1", temperature=1)
 
 # Store it in some form of vector database in our case we will
 # be using chromadb as our vector database
@@ -39,7 +39,7 @@ def format_docs(docs):
 # Define the Ollama LLM function
 def ollama_llm(question, context):
     formatted_prompt = f"Question: {question}\n\nContext: {context}"
-    response = ollama.chat(model='llama2', messages=[{'role': 'user', 'content': formatted_prompt}])
+    response = ollama.chat(model='llama3.1', messages=[{'role': 'user', 'content': formatted_prompt}])
     return response['message']['content']
 
 # Define the RAG chain
@@ -50,3 +50,8 @@ def rag_chain(question):
 
 result = rag_chain("Can you please summarize this text")
 print(result)
+
+
+# Most recent time
+# llama3.1
+# llama2: 5 mins 2 seconds 
